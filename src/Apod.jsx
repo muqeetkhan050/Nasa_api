@@ -1,30 +1,54 @@
 import React from 'react';
-import {useState,useEffect} from 'react'
+import { useEffect, useState } from 'react'
 
-
-const Apod=()=>{
-    const [data,setData]=useState(null)
-    const apiKey="dl3KYoB9xJGBTm0owQdEU7lAdauHDMQ1H0J9ML1k"
-
+const Apod = () => {
+    const [data,setData]=useState(null);
+    const [loading,setLoading]=useState(true);
+    const [error,setError]=useState(null);
+    const API_key="dl3KYoB9xJGBTm0owQdEU7lAdauHDMQ1H0J9ML1k"
+    
     useEffect(()=>{
-        fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`)
+        fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_key}`)
         .then((response)=>response.json)
-        .then((result)=>setData(result))
-        .catch((error)=>console.error("error fetching data",error))
+        .then((result)=>{
+            setData(result);
+            setLoading(false);
+
+        })
+        .catch((error)=>{
+            setError(error);
+            setLoading(false)
+        })
     },[])
 
-    if(!data){
+    if(loading){
         return(
-            <>data is loading.....</>
+            <>picture is loading....</>
         )
     }
-    return(
 
-        <div>
-        <h2>picture of the day</h2>
-        <button>Click here</button>
-        </div>
+    if(error){
+        <div>we got an error:{error.message}</div>
+    }
+
+
+    return (
+        <>
+        <h3>Picture Of The Day</h3>
+        {data && (
+            <div>
+                <h3>{data.title}</h3>
+                <h2>{data.date}</h2>
+                {data.media_type==='iamge' ?
+                ( <img src={img.url} alt={data.title} width="500"></img>):
+                ( <iframe src={data.url} title={data.title} width="500" height="300"></iframe>)
+                }
+                <p>{data.explanation}</p>
+            </div>
+        )}
+        </>
     )
 }
 
 export default Apod;
+
