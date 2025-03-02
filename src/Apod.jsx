@@ -9,7 +9,7 @@ const Apod = () => {
     
     useEffect(()=>{
         fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_key}`)
-        .then((response)=>response.json)
+        .then((response)=>response.json())
         .then((result)=>{
             setData(result);
             setLoading(false);
@@ -39,11 +39,12 @@ const Apod = () => {
             <div>
                 <h3>{data.title}</h3>
                 <h2>{data.date}</h2>
-                {data.media_type==='iamge' ?
-                ( <img src={img.url} alt={data.title} width="500"></img>):
+                {data.media_type==='image' ?
+                ( <img src={data.url} alt={data.title} width="500"></img>):
                 ( <iframe src={data.url} title={data.title} width="500" height="300"></iframe>)
                 }
                 <p>{data.explanation}</p>
+                <h3>this is our API call</h3>
             </div>
         )}
         </>
