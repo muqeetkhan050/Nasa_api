@@ -23,7 +23,10 @@ const Apod = () => {
 
     if(loading){
         return(
+            <>
+            <h3>PLEASE WAIT</h3>
             <>picture is loading....</>
+            </>
         )
     }
 
@@ -44,7 +47,7 @@ const Apod = () => {
                 ( <iframe src={data.url} title={data.title} width="500" height="300"></iframe>)
                 }
                 <p>{data.explanation}</p>
-                <h3>this is our API call</h3>
+                
             </div>
         )}
         </>
